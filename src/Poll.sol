@@ -4,6 +4,17 @@ pragma solidity ^0.8.0;
 import {ByteHasher} from "./ByteHasher.sol";
 import {IWorldID} from "./IWorldID.sol";
 
+enum Vote {
+    No,
+    Yes,
+    Abstain
+}
+
+enum House {
+    Upper,
+    Lower
+}
+
 contract Poll {
     using ByteHasher for bytes;
 
@@ -21,7 +32,7 @@ contract Poll {
     /// @dev Whether a nullifier hash has been used already. Used to guarantee an action is only performed once by a single person
     mapping(uint256 => bool) internal nullifierHashes;
 
-    event Vote(string action, uint256 signal);
+    event Voted(string action, string electorate, Vote vote);
 
     /// @param _worldId The WorldID instance that will verify the proofs
     /// @param _appId The World ID app ID
@@ -32,7 +43,8 @@ contract Poll {
 
     function vote(
         string memory _actionId,
-        uint256 signal,
+        string memory _electorate,
+        Vote _vote,
         uint256 root,
         uint256 nullifierHash,
         uint256[8] calldata proof
@@ -48,7 +60,12 @@ contract Poll {
         worldId.verifyProof(
             root,
             groupId,
-            abi.encodePacked(signal).hashToField(),
+            abi
+                .encodePacked(
+                    abi.encodePacked(_electorate).hashToField(),
+                    _vote
+                )
+                .hashToField(),
             nullifierHash,
             externalNullifier,
             proof
@@ -57,6 +74,6 @@ contract Poll {
         // We now record the user has done this, so they can't do it again (proof of uniqueness)
         nullifierHashes[nullifierHash] = true;
 
-        emit Vote(_actionId, signal);
+        emit Voted(_actionId, _electorate, _vote);
     }
 }
