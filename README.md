@@ -30,5 +30,5 @@ $ forge fmt
 ```
 RPC_URL=
 ETHERSCAN_API_KEY=
-forge script script/foundry-scripts/holesky/deployHolesky.s.sol:DeployHolesky --rpc-url ${RPC_URL}  --broadcast --etherscan-api-key ${ETHERSCAN_API_KEY} --verify --slow
+forge script script/Poll.s.sol:DeployPoll --rpc-url ${RPC_URL}  --broadcast --etherscan-api-key ${ETHERSCAN_API_KEY} --verify --slow
 ```
