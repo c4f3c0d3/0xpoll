@@ -7,6 +7,17 @@
 
 ## Contracts
 
+### Install
+
+git clone this repo
+
+```shell
+git clone https://github.com/c4f3c0d3/0xpoll
+cd 0xpoll
+# Copy `.env.example` to `.env` and fill in the environment variables.
+cp .env.example .env
+```
+
 ### Build
 
 ```shell
@@ -28,7 +39,5 @@ $ forge fmt
 ## Deploy
 
 ```
-RPC_URL=
-ETHERSCAN_API_KEY=
-forge script script/Poll.s.sol:DeployPoll --rpc-url ${RPC_URL}  --broadcast --etherscan-api-key ${ETHERSCAN_API_KEY} --verify --slow
+make deploy
 ```
