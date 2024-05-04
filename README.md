@@ -17,6 +17,12 @@ For the hackathon, we used the scenario of the Australian Electoral Commission (
 - ISemaphore N/A
 - WorldIDRouter N/A
 
+## Base Sepolia
+
+- ElectoralCommission [0xa3C235f09F1491fbc714efDAA7504089E49Df1b2](https://sepolia.basescan.org/address/0xa3C235f09F1491fbc714efDAA7504089E49Df1b2)
+- ISemaphore N/A
+- WorldIDRouter N/A
+
 ### Install
 
 git clone this repo

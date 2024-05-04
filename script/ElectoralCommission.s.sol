@@ -15,11 +15,6 @@ contract DeployElectoralCommission is Script {
         vm.startBroadcast(deployer);
         console.log("Deploying on mainnet with deployer: %s", deployer);
 
-        // new Poll(
-        //     0x42FF98C4E85212a5D31358ACbFe76a621b50fC02,
-        //     "app_staging_7820bb0bd1e9e9cdee0441837336351c"
-        // );
-
         ElectoralCommission electoralCommission = new ElectoralCommission(
             0x0A09FB3f63c13F1C54F2fA41AFB1e7a98cffc774
         );
