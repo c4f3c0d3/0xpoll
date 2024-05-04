@@ -8,12 +8,12 @@ import { SemaphoreSubgraph } from "@semaphore-protocol/data";
 //import { keccak256, toUtf8Bytes } from 'ethers/lib/utils';
 import LodgeVoteABI from '../abi/LodgeVoteAbi.json';
 
-const electoralCommissionAddress = '0xC0353182AC84ac8CF97e5724fb6964a6FA870CF7';
+const electoralCommissionAddress = '0xB149F77675e79810971609Fc0b87F6958481F0Cb';
 // TODO Find alternative functions with wagmi 
 //const sydneyElectorateHash = keccak256(toUtf8Bytes('Sydney'));
 const sydneyElectorateHash = '0x69ed05f70d319c41baeb11c96a47ecd6e07585e86bc770c7486cfd600b0c4c3a';
 const bill = 'digital-id-bill-2024';
-const sydneyElectorateId = '55';
+const sydneyElectorateId = '93';
 
 export default function VoteButton() {
   const { isConnected, address } = useAccount();
@@ -26,7 +26,7 @@ export default function VoteButton() {
       return;
     }
 
-    const voter = new Identity('voter1');
+    const voter = new Identity('voter5');
     console.log(`Voter Public Key: ${voter.publicKey}`);
 
 
@@ -50,7 +50,7 @@ export default function VoteButton() {
           address: electoralCommissionAddress,
           functionName: 'lodge',
           args: [
-            sydneyElectorateHash,
+            'Sydney',
             bill,
             1, // Vote enum
             proof
