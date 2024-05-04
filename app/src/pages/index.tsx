@@ -5,6 +5,11 @@ import { useAccount, useWriteContract, useWaitForTransactionReceipt, type BaseEr
 import { decodeAbiParameters, parseAbiParameters } from 'viem'
 import { useState } from 'react'
 import { ethers } from 'ethers'
+import Layout from '../components/Layout';
+import Link from 'next/link';
+import TransactionButton from '../components/Vote'; // Adjust the import path based on your folder structure
+
+
 
 export default function Home() {
 	const account = useAccount()
@@ -38,24 +43,29 @@ export default function Home() {
 	}
 
 	return (
-		<div>
-			<ConnectKitButton/>
-			{account.isConnected && (<>
-				<IDKitWidget
-					app_id={process.env.NEXT_PUBLIC_APP_ID as `app_${string}`}
-					action={process.env.NEXT_PUBLIC_ACTION as string}
-					signal={account.address}
-					onSuccess={submitTx}
-					autoClose
-				/>
+		<Layout>
+			<div>
+				<ConnectKitButton/>
+				{account.isConnected && (<>
+					<IDKitWidget
+						app_id={process.env.NEXT_PUBLIC_APP_ID as `app_${string}`}
+						action={process.env.NEXT_PUBLIC_ACTION as string}
+						signal={account.address}
+						onSuccess={submitTx}
+						autoClose
+					/>
 
-				{!done && <button onClick={() => setOpen(true)}>{!hash && (isPending ? "Pending, please check your wallet..." : "Verify and Execute Transaction")}</button>}
+					{!done && <button onClick={() => setOpen(true)}>{!hash && (isPending ? "Pending, please check your wallet..." : "Verify and Execute Transaction")}</button>}
 
-				{hash && <p>Transaction Hash: {hash}</p>}
-				{isConfirming && <p>Waiting for confirmation...</p>} 
-				{isConfirmed && <p>Transaction confirmed.</p>}
-				{error && <p>Error: {(error as BaseError).message}</p>}
-			</>)}
-		</div>
+					{hash && <p>Transaction Hash: {hash}</p>}
+					{isConfirming && <p>Waiting for confirmation...</p>} 
+					{isConfirmed && <p>Transaction confirmed.</p>}
+					{error && <p>Error: {(error as BaseError).message}</p>}
+				</>)}
+			</div>
+			<div>
+				<Link href="/bills">View Bills</Link>
+			</div>
+		</Layout>
 	)
 }
