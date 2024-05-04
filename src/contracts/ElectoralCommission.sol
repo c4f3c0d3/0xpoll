@@ -9,13 +9,20 @@ contract ElectoralCommission is Ownable {
 
     mapping(bytes32 => uint256) public electorates;
 
+    event ElectorateCreated(bytes32 electorateHash, uint256 groupId);
+
     constructor(address _semaphore) Ownable(msg.sender) {
         semaphore = ISemaphore(_semaphore);
     }
 
-    function createElectorate(bytes32 electorateHash) external onlyOwner {
+    function createElectorate(
+        bytes32 electorateHash
+    ) external onlyOwner returns (uint256 groupId) {
         require(electorates[electorateHash] == 0, "Electorate already exists");
-        electorates[electorateHash] = semaphore.createGroup(address(this));
+        groupId = semaphore.createGroup(address(this));
+        electorates[electorateHash] = groupId;
+
+        emit ElectorateCreated(electorateHash, groupId);
     }
 
     function addMember(

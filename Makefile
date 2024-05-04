@@ -22,5 +22,5 @@ update:; forge update
 clear:; rm -rf node_modules; rm -f package-lock.json
     
 # Deploy contracts
-deploy-base:; forge script script/Poll.s.sol:DeployPoll --rpc-url ${BASE_SEPOLIA_RPC_URL}  --broadcast --etherscan-api-key ${ETHERSCAN_API_KEY} --verify --slow
-deploy-sepolia:; forge script script/Poll.s.sol:DeployPoll --rpc-url ${SEPOLIA_RPC_URL}  --broadcast --etherscan-api-key ${ETHERSCAN_API_KEY} --verify --slow
+deploy-base:; forge script script/ElectoralCommission.s.sol:DeployElectoralCommission --rpc-url ${BASE_SEPOLIA_RPC_URL}  --broadcast --etherscan-api-key ${BASE_SEPOLIA_ETHERSCAN_API_KEY} --verify --slow
+deploy-sepolia:; forge script script/ElectoralCommission.s.sol:DeployElectoralCommission --rpc-url ${SEPOLIA_RPC_URL}  --broadcast --etherscan-api-key ${ETHERSCAN_API_KEY} --verify --slow
