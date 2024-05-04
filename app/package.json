@@ -10,6 +10,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@semaphore-protocol/core": "4.0.0-beta.9",
+    "@semaphore-protocol/data": "4.0.0-beta.9",
     "@tanstack/react-query": "^5.28.6",
     "@types/node": "20.1.2",
     "@types/react": "18.2.6",
@@ -20,7 +22,6 @@
     "connectkit": "^1.7.2",
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.1",
-    "ethers": "^6.12.1",
     "next": "13.4.1",
     "postcss": "8.4.23",
     "react": "18.2.0",

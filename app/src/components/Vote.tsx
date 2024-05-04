@@ -1,47 +1,68 @@
-import { ethers } from 'ethers';
-import React, { useState } from 'react';
+import { useEffect } from 'react';
+import { useAccount, useContract, useSigner, useWriteContract } from 'wagmi';
+import { Contract } from 'ethers';
+import { Identity, Group } from '@semaphore-protocol/core';
+import { generateProof, verifyProof } from '@semaphore-protocol/proof';
+import { SemaphoreSubgraph } from "@semaphore-protocol/data";
+// We need to replace this.
+//import { keccak256, toUtf8Bytes } from 'ethers/lib/utils';
+import contractABI from '../abi/ContractAbi.json';
 
-const TransactionButton: React.FC = () => {
-  const [open, setOpen] = useState<boolean>(false);
-  const [transactionStatus, setTransactionStatus] = useState<'idle' | 'pending' | 'done'>('idle');
+const electoralCommissionAddress = '0xC0353182AC84ac8CF97e5724fb6964a6FA870CF7';
+// TODO Find alternative functions with wagmi 
+//const sydneyElectorateHash = keccak256(toUtf8Bytes('Sydney'));
+const sydneyElectorateHash = '0x69ed05f70d319c41baeb11c96a47ecd6e07585e86bc770c7486cfd600b0c4c3a';
+const bill = 'digital-id-bill-2024';
+const sydneyElectorateId = '55';
 
-  const sendTransaction = async () => {
-    try {
-      if (typeof window.ethereum !== 'undefined') {
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        await provider.send('eth_requestAccounts', []);
-        const signer = provider.getSigner();
+export default function VoteButton() {
+  const { isConnected, address } = useAccount();
 
-        const txResponse = await signer.sendTransaction({
-          to: '0x04dC8f32FBC7644Bd643c081195dDF8ed7fDccC4', // Make sure to replace it with a valid address
-          value: ethers.utils.parseEther('0.01')
-        });
+  const { writeContract } = useWriteContract();
 
-        setTransactionStatus('pending');
-        console.log('Transaction sent:', txResponse.hash);
-
-        await txResponse.wait();
-        setTransactionStatus('done');
-        console.log('Transaction confirmed:', txResponse.hash);
-      } else {
-        console.error('Ethereum object doesn\'t exist!');
-      }
-    } catch (error) {
-      console.error('Transaction failed:', error);
-      setTransactionStatus('idle');
+  const handleVote = async () => {
+    if (!isConnected) {
+      alert('Please connect your wallet');
+      return;
     }
-  };
 
-  const handleClick = () => {
-    setOpen(true);
-    sendTransaction();
+    const voter = new Identity('voter1');
+    console.log(`Voter Public Key: ${voter.publicKey}`);
+
+
+    // get members from chain
+    const semaphoreSubgraph = new SemaphoreSubgraph("sepolia");
+    const { members } = await semaphoreSubgraph.getGroup(sydneyElectorateId, {
+      members: true,
+    });
+
+    // Uses subgraph
+    const sydneyElectorate = new Group(members);
+    // TODO Replace with hashing versions.
+    const scope = '0xdee2ea8b1704b566fc257124630122e6b788a735c8c85de5e0d00f07492376';
+    const message = '0x5fe7f977e71dba2ea1a68e21057beebb9be2ac30c6410aa38d4f3fbe41dcff'; 
+
+
+    const proof = await generateProof(voter, sydneyElectorate, message, scope);
+    console.log(proof);
+    const result = await writeContract({ 
+          abi: contractABI,
+          address: electoralCommissionAddress,
+          functionName: 'lodge',
+          args: [
+            sydneyElectorateHash,
+            bill,
+            1, // Vote enum
+            proof
+          ],
+       })
+    console.log(result);
+      
   };
 
   return (
-    <button onClick={handleClick}>
-      {transactionStatus === 'pending' ? "Pending, please check your wallet..." : "Send 0.01 ETH"}
+    <button onClick={handleVote} disabled={!isConnected}>
+      Vote on Bill
     </button>
   );
-};
-
-export default TransactionButton;
+}
