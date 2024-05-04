@@ -3,25 +3,21 @@ import { Group } from "@semaphore-protocol/group";
 import { generateProof, verifyProof } from "@semaphore-protocol/proof";
 import { SemaphoreSubgraph } from "@semaphore-protocol/data";
 import {
-  AbiCoder,
   Contract,
   JsonRpcProvider,
-  getBytes,
-  toQuantity,
   Wallet,
   keccak256,
   toUtf8Bytes,
 } from "ethers";
 import { readFileSync } from "fs";
 
-// import { hashScope, hashVote } from "./hasher";
+import { hashScope, hashVote } from "./hasher.js";
 
 import "dotenv/config";
 
-const sydneyElectorateId = "49";
-const electoralCommissionAddress = "0x718b30E214EC24c65A7e78ef605C3b39c72fbb9B";
+const sydneyElectorateId = "55";
+const electoralCommissionAddress = "0xC0353182AC84ac8CF97e5724fb6964a6FA870CF7";
 const sydneyElectorateHash = keccak256(toUtf8Bytes("Sydney"));
-const abiEncoder = AbiCoder.defaultAbiCoder();
 const bill = "digital-id-bill-2024";
 
 const Vote = {
@@ -36,11 +32,12 @@ const main = async () => {
   // Load the signer
   const signer = new Wallet(process.env.DEPLOYER_PRIVATE_KEY, provider);
 
-  const randomId = new Identity();
-  console.log(`ID from random:`);
-  console.log(`Private key: ${randomId.privateKey}`);
-  console.log(`Public key: ${randomId.publicKey}`);
-  console.log(`Commitment: ${randomId.commitment}`);
+  const voter1 = new Identity();
+  console.log(`ID from vote1:`);
+  console.log(`Private key: ${voter1.privateKey}`);
+  console.log(`Public key: ${voter1.publicKey}`);
+  console.log(`Commitment: ${voter1.commitment}`);
+  const voter2 = new Identity();
 
   // Read the JSON file
   const ecCompilerData = await readFileSync(
@@ -56,33 +53,13 @@ const main = async () => {
     signer
   );
 
-  console.log("About to add member");
-  const tx = await electoralCommission.addMember(
-    sydneyElectorateHash,
-    randomId.commitment
-  );
-  console.log(`Member added in tx ${tx.hash}`);
-  await tx.wait();
-
-  const pkWallet = new Wallet(
-    "0x0000000000000000000000000000000000000000000000000000000000000001"
-  );
-
-  const pkId = new Identity(pkWallet.privateKey);
-  console.log(`\nID from private key:`);
-  console.log(`private key: ${pkId.privateKey}`);
-  console.log(`Public key: ${pkId.publicKey}`);
-  console.log(`Commitment: ${pkId.commitment}`);
-
-  const signedMessage = await pkWallet.signMessage("0xPoll");
-  const sigId = new Identity(signedMessage);
-  console.log(`\nID from private key:`);
-  console.log(`private key: ${sigId.privateKey}`);
-  console.log(`Public key: ${sigId.publicKey}`);
-  console.log(`Commitment: ${sigId.commitment}`);
-
-  const group = new Group([pkId.commitment, sigId.commitment]);
-  group.addMember(randomId.commitment);
+  console.log("About to add members");
+  const tx1 = await electoralCommission.addMembers(sydneyElectorateHash, [
+    voter1.commitment,
+    voter2.commitment,
+  ]);
+  console.log(`Members added in tx ${tx1.hash}`);
+  await tx1.wait();
 
   // get members from chain
   const semaphoreSubgraph = new SemaphoreSubgraph("sepolia");
@@ -96,15 +73,21 @@ const main = async () => {
   const scope = hashScope("digital-id-bill-2024");
   const message = hashVote(Vote.Yes);
 
-  console.log(`Generating proof for voter ${randomId.publicKey}`);
-  const proof = await generateProof(randomId, sydneyElectorate, message, scope);
-  console.log(`Proof generated:`);
+  console.log(`Generating proof for voter ${voter1.publicKey}`);
+  let startTime = performance.now();
+  const proof = await generateProof(voter1, sydneyElectorate, message, scope);
+  let endTime = performance.now();
+  console.log(`Proof generated in ${endTime - startTime} milliseconds`);
   console.log(proof);
 
   // Verify the proof locally
   console.log(`About to verify the proof locally`);
+  startTime = performance.now();
   await verifyProof(proof);
-  console.log(`Verified the proof locally`);
+  endTime = performance.now();
+  console.log(
+    `Verified the proof locally in ${endTime - startTime} milliseconds`
+  );
 
   // lodge vote on-chain
   const lodgeTx = await electoralCommission.lodge(
@@ -124,21 +107,3 @@ main()
   .catch((error) => {
     console.error("Error:", error);
   });
-
-const hashScope = (scope) => {
-  const hash = keccak256(toUtf8Bytes(scope));
-  const field = hash.slice(0, -2);
-
-  console.log(`Hashed scope "${scope}" to field ${field}`);
-
-  return field;
-};
-
-const hashVote = (vote) => {
-  const hash = keccak256("0x01");
-  const field = hash.slice(0, -2);
-
-  console.log(`Hashed vote "${vote}" to field ${field}`);
-
-  return field;
-};
