@@ -24,3 +24,4 @@ clear:; rm -rf node_modules; rm -f package-lock.json
 # Deploy contracts
 deploy-base:; forge script script/ElectoralCommission.s.sol:DeployElectoralCommission --rpc-url ${BASE_SEPOLIA_RPC_URL}  --broadcast --etherscan-api-key ${BASE_SEPOLIA_ETHERSCAN_API_KEY} --verify --slow
 deploy-sepolia:; forge script script/ElectoralCommission.s.sol:DeployElectoralCommission --rpc-url ${SEPOLIA_RPC_URL}  --broadcast --etherscan-api-key ${ETHERSCAN_API_KEY} --verify --slow
+deploy-polly-test:; forge script script/ElectoralCommission.s.sol:DeployElectoralCommission --rpc-url ${POLLY_TEST_RPC_URL}  --broadcast --slow --legacy
