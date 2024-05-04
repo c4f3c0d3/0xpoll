@@ -7,9 +7,9 @@ For the hackathon, we used the scenario of the Australian Electoral Commission (
 
 ## Sepolia
 
-- ElectoralCommission [0xC0353182AC84ac8CF97e5724fb6964a6FA870CF7](https://sepolia.basescan.org/address/0xC0353182AC84ac8CF97e5724fb6964a6FA870CF7)
-- ISemaphore [0x0A09FB3f63c13F1C54F2fA41AFB1e7a98cffc774](https://sepolia.basescan.org/address/0x0A09FB3f63c13F1C54F2fA41AFB1e7a98cffc774)
-- WorldIDRouter [0x42FF98C4E85212a5D31358ACbFe76a621b50fC02](https://sepolia.basescan.org/address/0x42FF98C4E85212a5D31358ACbFe76a621b50fC02)
+- ElectoralCommission [0xB149F77675e79810971609Fc0b87F6958481F0Cb](https://sepolia.etherscan.io/address/0xB149F77675e79810971609Fc0b87F6958481F0Cb)
+- ISemaphore [0x0A09FB3f63c13F1C54F2fA41AFB1e7a98cffc774](https://sepolia.etherscan.io/address/0x0A09FB3f63c13F1C54F2fA41AFB1e7a98cffc774)
+- WorldIDRouter [0x42FF98C4E85212a5D31358ACbFe76a621b50fC02](https://sepolia.etherscan.io/address/0x42FF98C4E85212a5D31358ACbFe76a621b50fC02)
 
 ## Polygon zkEVM Cardona Testnet
 
@@ -126,3 +126,15 @@ tx2uml 0xf27bc88216c8b0a1d1df59d672d7c7d3cef6d730ba3883980f73dbb09d0d314e -x -v 
 ```
 
 ![lodge](./docs/f27b314e.svg)
+
+## Add multiple voters
+
+The identity issuer, which could be the Australian Electoral Commission or a trusted third party like the Post Office, adds multiple identity commitments to the Sydney electorate. The public keys of the identities are not revealed.
+
+tx [0x770f37f0edb03f3e61974fd3fedf04d91817b6a1596ba9c1a0042d30ede93c4a](https://sepolia.etherscan.io/tx/0x770f37f0edb03f3e61974fd3fedf04d91817b6a1596ba9c1a0042d30ede93c4a)
+
+```
+tx2uml 0x46ac6b950f3145f40252b0adf6a71ae1611ad120620f87f913b6dec7f8ca966d -x -v -c sepolia -e https://api-sepolia.etherscan.io/api -k ${ETHERSCAN_API_KEY} -u ${SEPOLIA_RPC_URL}
+```
+
+![lodge](./docs/46ac966d.svg)

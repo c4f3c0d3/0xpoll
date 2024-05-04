@@ -23,7 +23,7 @@ const bill = "digital-id-bill-2024";
 // Org nullifier
 // const voter1Msg =
 //   "10275366243953154642524808429964944346675260640541267283304524169466159660523";
-const voter1Msg = "voter11";
+const voter1Msg = "voter14";
 
 const Vote = {
   No: 0,
@@ -64,6 +64,34 @@ const main = async () => {
   ]);
   console.log(`Members added in tx ${tx1.hash}`);
   await tx1.wait();
+
+  const randomVoter1 = new Identity();
+  const randomVoter2 = new Identity();
+  const randomVoter3 = new Identity();
+  const randomVoter4 = new Identity();
+  const randomVoter5 = new Identity();
+  const randomVoter6 = new Identity();
+  const randomVoter7 = new Identity();
+  const randomVoter8 = new Identity();
+  const randomVoter9 = new Identity();
+  const randomVoter10 = new Identity();
+  const randomVoter11 = new Identity();
+  const randomVoter12 = new Identity();
+
+  await electoralCommission.addMembers("Sydney", [
+    randomVoter1.commitment,
+    randomVoter2.commitment,
+    randomVoter3.commitment,
+    randomVoter4.commitment,
+    randomVoter5.commitment,
+    randomVoter6.commitment,
+    randomVoter7.commitment,
+    randomVoter8.commitment,
+    randomVoter9.commitment,
+    randomVoter10.commitment,
+    randomVoter11.commitment,
+    randomVoter12.commitment,
+  ]);
 };
 
 main()
