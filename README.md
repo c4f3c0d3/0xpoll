@@ -97,6 +97,10 @@ Notice the electorate, bill and Yes vote is revealed along with a zero-knowledge
 
 The VoteAdded event can be used to tally the votes.
 
+Generating the proof takes around 1 second to construct in the browser.
+
+The transaction used 331k gas. 289k of this was used to verify the zero-knowledge proof against the Semaphore contract.
+
 tx [0xa4c3c034c08900172a438b0b094ec605991bf10eac9b1ca1ec90dbdb8f1b36eb](https://sepolia.etherscan.io/tx/0xa4c3c034c08900172a438b0b094ec605991bf10eac9b1ca1ec90dbdb8f1b36eb)
 
 ```
@@ -104,3 +108,15 @@ tx2uml 0xa4c3c034c08900172a438b0b094ec605991bf10eac9b1ca1ec90dbdb8f1b36eb -x -v 
 ```
 
 ![lodge](./docs/a4c336eb.svg)
+
+## Create electorate
+
+The identity issuer creates the Sydney electorate for the Federal Parliament. This creates a group in the semaphore contract with the `ElectorateCommission` contract as the administrator.
+
+tx [0xf27bc88216c8b0a1d1df59d672d7c7d3cef6d730ba3883980f73dbb09d0d314e](https://sepolia.etherscan.io/tx/0xf27bc88216c8b0a1d1df59d672d7c7d3cef6d730ba3883980f73dbb09d0d314e)
+
+```
+tx2uml 0xf27bc88216c8b0a1d1df59d672d7c7d3cef6d730ba3883980f73dbb09d0d314e -x -v -c sepolia -e https://api-sepolia.etherscan.io/api -k ${ETHERSCAN_API_KEY} -u ${SEPOLIA_RPC_URL}
+```
+
+![lodge](./docs/f27b314e.svg)
