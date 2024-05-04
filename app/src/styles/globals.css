@@ -25,3 +25,48 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+header {
+  margin-bottom: 20px;
+}
+header img {
+  margin: auto;
+}
+
+h1 {
+  font-size: 2rem;
+}
+p {
+  margin-bottom:1.5rem;
+}
+
+main {
+  max-width:80%;
+  margin: auto;
+}
+
+.bill {
+  background: #F4F4F8;
+  border: 1px solid #e2e3e8;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  padding:20px;
+}
+
+h4.bill-title { 
+  font-size:1.75rem; 
+  margin-bottom: 15px;
+}
+
+button,
+a.bill-link {
+  background: #000;
+  color: #fff;
+  display: inline-block;
+  margin: 20px 0px;
+  padding: 10px;
+  border-radius: 10px;
+}
+footer {
+  margin-top:20px;
+}
