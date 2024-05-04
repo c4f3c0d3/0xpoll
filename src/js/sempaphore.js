@@ -6,16 +6,20 @@ import {
   AbiCoder,
   Contract,
   JsonRpcProvider,
+  getBytes,
+  toQuantity,
   Wallet,
   keccak256,
   toUtf8Bytes,
 } from "ethers";
 import { readFileSync } from "fs";
 
+// import { hashScope, hashVote } from "./hasher";
+
 import "dotenv/config";
 
-const sydneyElectorateId = "48";
-const electoralCommissionAddress = "0x52A6eE865bb85A21f40aE1189143A45a3BD154c0";
+const sydneyElectorateId = "49";
+const electoralCommissionAddress = "0x718b30E214EC24c65A7e78ef605C3b39c72fbb9B";
 const sydneyElectorateHash = keccak256(toUtf8Bytes("Sydney"));
 const abiEncoder = AbiCoder.defaultAbiCoder();
 const bill = "digital-id-bill-2024";
@@ -89,8 +93,8 @@ const main = async () => {
 
   const sydneyElectorate = new Group(members);
 
-  const scope = keccak256(toUtf8Bytes("digital-id-bill-2024"));
-  const message = abiEncoder.encode(["uint8"], [Vote.Yes]);
+  const scope = hashScope("digital-id-bill-2024");
+  const message = hashVote(Vote.Yes);
 
   console.log(`Generating proof for voter ${randomId.publicKey}`);
   const proof = await generateProof(randomId, sydneyElectorate, message, scope);
@@ -120,3 +124,21 @@ main()
   .catch((error) => {
     console.error("Error:", error);
   });
+
+const hashScope = (scope) => {
+  const hash = keccak256(toUtf8Bytes(scope));
+  const field = hash.slice(0, -2);
+
+  console.log(`Hashed scope "${scope}" to field ${field}`);
+
+  return field;
+};
+
+const hashVote = (vote) => {
+  const hash = keccak256("0x01");
+  const field = hash.slice(0, -2);
+
+  console.log(`Hashed vote "${vote}" to field ${field}`);
+
+  return field;
+};

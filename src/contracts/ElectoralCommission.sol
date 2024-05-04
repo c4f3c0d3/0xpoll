@@ -32,9 +32,11 @@ contract ElectoralCommission is Ownable {
         Vote vote,
         ISemaphore.SemaphoreProof memory proof
     ) external {
-        proof.scope = abi.encodePacked(bill).hashToField();
+        proof.scope = bytes(bill).hashToField();
         proof.message = abi.encodePacked(vote).hashToField();
         semaphore.validateProof(electorates[electorateHash], proof);
+
+        // TODO add double voting protection
 
         emit Voted(electorateHash, vote);
     }
