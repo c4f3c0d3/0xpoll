@@ -26,7 +26,7 @@ export default function VoteButton() {
       return;
     }
 
-    const voter = new Identity('10275366243953154642524808429964944346675260640541267283304524169466159660523');
+    const voter = new Identity('voter1');
     console.log(`Voter Public Key: ${voter.publicKey}`);
 
 

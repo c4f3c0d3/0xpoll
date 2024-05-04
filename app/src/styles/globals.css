@@ -69,13 +69,31 @@ h4.bill-title {
 
 button,
 a.bill-link,
-a.read-more {
+a.read-more,
+a.view-bills {
   background: #000;
   color: #fff;
   display: inline-block;
   margin: 20px 0px;
   padding: 10px;
   border-radius: 10px;
+}
+
+a.view-bills,
+a.inactive-link {
+  text-align:center;
+  width: 100%;
+}
+
+
+a.inactive-link {
+  background: #ccc;
+  color: #fff;
+  display: inline-block;
+  margin: 0px 0px;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: default;
 }
 
 .vote-options {

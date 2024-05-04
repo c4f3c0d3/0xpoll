@@ -64,7 +64,10 @@ export default function Home() {
 				</>)}
 			</div>
 			<div>
-				<Link href="/bills">View Bills</Link>
+				<a href="#" className="inactive-link">Confirm Electorate</a>
+			</div>
+			<div>
+				<Link href="/bills" className="view-bills">View Bills</Link>
 			</div>
 		</Layout>
 	)
