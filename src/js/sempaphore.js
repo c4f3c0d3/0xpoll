@@ -18,7 +18,11 @@ import "dotenv/config";
 const sydneyElectorateId = "55";
 const electoralCommissionAddress = "0xC0353182AC84ac8CF97e5724fb6964a6FA870CF7";
 const sydneyElectorateHash = keccak256(toUtf8Bytes("Sydney"));
+console.log(`Sydney electorate hash: ${sydneyElectorateHash}`);
 const bill = "digital-id-bill-2024";
+// Org nullifier
+const voter1Msg =
+  "10275366243953154642524808429964944346675260640541267283304524169466159660523";
 
 const Vote = {
   No: 0,
@@ -32,6 +36,7 @@ const main = async () => {
   // Load the signer
   const signer = new Wallet(process.env.DEPLOYER_PRIVATE_KEY, provider);
 
+  // const voter1 = new Identity(voter1Msg);
   const voter1 = new Identity();
   console.log(`ID from vote1:`);
   console.log(`Private key: ${voter1.privateKey}`);
@@ -73,7 +78,7 @@ const main = async () => {
   const scope = hashScope("digital-id-bill-2024");
   const message = hashVote(Vote.Yes);
 
-  console.log(`Generating proof for voter ${voter1.publicKey}`);
+  console.log(`Generating proof for voter 1 ${voter1.publicKey}`);
   let startTime = performance.now();
   const proof = await generateProof(voter1, sydneyElectorate, message, scope);
   let endTime = performance.now();
@@ -81,15 +86,10 @@ const main = async () => {
   console.log(proof);
 
   // Verify the proof locally
-  console.log(`About to verify the proof locally`);
-  startTime = performance.now();
   await verifyProof(proof);
-  endTime = performance.now();
-  console.log(
-    `Verified the proof locally in ${endTime - startTime} milliseconds`
-  );
 
   // lodge vote on-chain
+  console.log(`About to lodge vote on-chain`);
   const lodgeTx = await electoralCommission.lodge(
     sydneyElectorateHash,
     bill,
@@ -98,6 +98,23 @@ const main = async () => {
   );
   console.log(`Vote lodged in tx ${lodgeTx.hash}`);
   await lodgeTx.wait();
+
+  const vote2Message = hashVote(Vote.No);
+  const proof2 = await generateProof(
+    voter2,
+    sydneyElectorate,
+    vote2Message,
+    scope
+  );
+
+  const lodgeTx2 = await electoralCommission.lodge(
+    sydneyElectorateHash,
+    bill,
+    Vote.No,
+    proof2
+  );
+  console.log(`Vote 2 lodged in tx ${lodgeTx2.hash}`);
+  await lodgeTx2.wait();
 };
 
 main()
