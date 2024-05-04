@@ -6,7 +6,7 @@ import { generateProof, verifyProof } from '@semaphore-protocol/proof';
 import { SemaphoreSubgraph } from "@semaphore-protocol/data";
 // We need to replace this.
 //import { keccak256, toUtf8Bytes } from 'ethers/lib/utils';
-import contractABI from '../abi/LodgeVoteAbi.json';
+import LodgeVoteABI from '../abi/LodgeVoteAbi.json';
 
 const electoralCommissionAddress = '0xC0353182AC84ac8CF97e5724fb6964a6FA870CF7';
 // TODO Find alternative functions with wagmi 
@@ -46,7 +46,7 @@ export default function VoteButton() {
     const proof = await generateProof(voter, sydneyElectorate, message, scope);
     console.log(proof);
     const result = await writeContract({ 
-          abi: contractABI,
+          abi: LodgeVoteABI,
           address: electoralCommissionAddress,
           functionName: 'lodge',
           args: [
