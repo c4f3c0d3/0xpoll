@@ -36,6 +36,8 @@ $ forge build
 
 ## Deploy
 
+Run the forge script `DeployElectoralCommission` in [script/ElectoralCommission.s.sol](./script/ElectoralCommission.s.sol)
+
 ```bash
 make deploy
 ```
@@ -48,13 +50,19 @@ This script will add voters to an electorate and simulate voters lodging their v
  node ./src/js/sempaphore.js
 ```
 
-# Technology Stack
+The script will add a voter to an electorate so the frontend can then lodge their vote.
 
-- Solidity for smart contracts
-- Foundry (Forge) for building contracts
-- Ethers.js for deploying and interacting with contracts
-- Semaphore protocol for managing identities, groups and proofs
-- World ID for authenticating a real user
+```bash
+ node ./src/js/addVoter.js
+```
+
+# Blockchain Technology Stack
+
+- [World ID](https://worldcoin.org/world-id) for authenticating a real user
+- [Semaphore protocol](https://semaphore.pse.dev/) for managing identities, groups and proofs
+- [Ethers.js](https://docs.ethers.org/v6/) for deploying and interacting with contracts
+- [Foundry's Forge](https://github.com/foundry-rs/foundry) for building contracts
+- [Solidity](https://soliditylang.org/) for smart contracts
 
 # Semaphore Protocol
 
