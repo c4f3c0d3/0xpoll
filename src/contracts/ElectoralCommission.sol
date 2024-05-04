@@ -37,8 +37,6 @@ contract ElectoralCommission is Ownable {
         bytes32 electorateHash = keccak256(abi.encodePacked(electorate));
         semaphore.validateProof(electorates[electorateHash], proof);
 
-        // TODO add double voting protection using the nullifier in the proof
-
         emit Voted(electorate, bill, vote);
     }
 

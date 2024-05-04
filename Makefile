@@ -25,3 +25,13 @@ clear:; rm -rf node_modules; rm -f package-lock.json
 deploy-base:; forge script script/ElectoralCommission.s.sol:DeployElectoralCommission --rpc-url ${BASE_SEPOLIA_RPC_URL}  --broadcast --etherscan-api-key ${BASE_SEPOLIA_ETHERSCAN_API_KEY} --verify --slow
 deploy-sepolia:; forge script script/ElectoralCommission.s.sol:DeployElectoralCommission --rpc-url ${SEPOLIA_RPC_URL}  --broadcast --etherscan-api-key ${ETHERSCAN_API_KEY} --verify --slow
 deploy-polly-test:; forge script script/ElectoralCommission.s.sol:DeployElectoralCommission --rpc-url ${POLLY_TEST_RPC_URL}  --broadcast --slow --legacy
+
+# verify commands
+## example: contractAddress=<contractAddress> contractPath=<contract-path> make verify-contract-sepolia
+## example: contractAddress=<contractAddress> contractPath=<contract-path> argsFile=args.txt make verify-contract-sepolia
+# example with constructor args
+# contractAddress=0x213ECE114F6Cc498d944B622172A645E54C37335 contractPath=src/contracts/ElectoralCommission.sol:ElectoralCommission argsFile=args.txt make verify-contract-sepolia
+ifneq ($(argsFile),)
+    CONSTRUCTOR_ARGS=--constructor-args-path ${argsFile}
+endif
+verify-contract-sepolia :; forge verify-contract --chain-id 11155111 --watch --etherscan-api-key ${ETHERSCAN_API_KEY} ${contractAddress} ${contractPath} ${CONSTRUCTOR_ARGS}

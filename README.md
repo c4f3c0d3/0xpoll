@@ -54,6 +54,7 @@ This script will add voters to an electorate and simulate voters lodging their v
 - Foundry (Forge) for building contracts
 - Ethers.js for deploying and interacting with contracts
 - Semaphore protocol for managing identities, groups and proofs
+- World ID for authenticating a real user
 
 # Semaphore Protocol
 
@@ -70,20 +71,28 @@ Semaphore is a privacy-preserving protocol that allows users to prove membership
 
 ## Add voter to an electorate
 
-tx [0xbcc1645e8bf6b0e4203d93c3d4e73cd635caab1d1850f5f55928c799a4b8ae95](https://sepolia.etherscan.io/tx/0xbcc1645e8bf6b0e4203d93c3d4e73cd635caab1d1850f5f55928c799a4b8ae95)
+The identity issuer, which could be the Australian Electoral Commission or a trusted third party like the Post Office, adds an identity commitment to the Sydney electorate. The public key of the identity is not revealed.
+
+tx [0x5c5a4fd217682c8c8e6dc51da5f2feb8ef112636c61c50945b3070a039cbd022](https://sepolia.etherscan.io/tx/0x5c5a4fd217682c8c8e6dc51da5f2feb8ef112636c61c50945b3070a039cbd022)
 
 ```
-tx2uml 0xbcc1645e8bf6b0e4203d93c3d4e73cd635caab1d1850f5f55928c799a4b8ae95 -x -v -c sepolia -e https://api-sepolia.etherscan.io/api -k ${ETHERSCAN_API_KEY} -u ${SEPOLIA_RPC_URL}
+tx2uml 0x5c5a4fd217682c8c8e6dc51da5f2feb8ef112636c61c50945b3070a039cbd022 -x -v -c sepolia -e https://api-sepolia.etherscan.io/api -k ${ETHERSCAN_API_KEY} -u ${SEPOLIA_RPC_URL}
 ```
 
-![addMember](./docs/bcc1ae95.svg)
+![addMember](./docs/5c5ad022.svg)
 
-## Lodged Vote
+## Lodge Vote
 
-tx [0x74c4d12c59f0fae44b39195e6c2b0e239d70786ea53198d781106e0112f38e2f](https://sepolia.etherscan.io/tx/0x74c4d12c59f0fae44b39195e6c2b0e239d70786ea53198d781106e0112f38e2f)
+A voter in the Sydney electorate lodges their Yes vote on the [Digital ID bill](https://www.digitalidentity.gov.au/digital-id-bill) in the federal parliament. The vote is an enum so Yes = 1.
+
+Notice the electorate, bill and Yes vote is revealed along with a zero-knowledge proof, but not the identity of the voter. Semaphore also restricts the voter to only voting once even though the voter is not revealed in the on-chain transaction.
+
+The VoteAdded event can be used to tally the votes.
+
+tx [0xa4c3c034c08900172a438b0b094ec605991bf10eac9b1ca1ec90dbdb8f1b36eb](https://sepolia.etherscan.io/tx/0xa4c3c034c08900172a438b0b094ec605991bf10eac9b1ca1ec90dbdb8f1b36eb)
 
 ```
-tx2uml 0x74c4d12c59f0fae44b39195e6c2b0e239d70786ea53198d781106e0112f38e2f -x -v -c sepolia -e https://api-sepolia.etherscan.io/api -k ${ETHERSCAN_API_KEY} -u ${SEPOLIA_RPC_URL}
+tx2uml 0xa4c3c034c08900172a438b0b094ec605991bf10eac9b1ca1ec90dbdb8f1b36eb -x -v -c sepolia -e https://api-sepolia.etherscan.io/api -k ${ETHERSCAN_API_KEY} -u ${SEPOLIA_RPC_URL}
 ```
 
-![lodge](./docs/74c48e2f.svg)
+![lodge](./docs/a4c336eb.svg)
