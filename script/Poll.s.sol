@@ -3,7 +3,7 @@ pragma solidity ^0.8.13;
 
 import {Script, console} from "forge-std/Script.sol";
 
-import {Poll} from "../src/Poll.sol";
+import {Poll} from "src/contracts/Poll.sol";
 
 contract DeployPoll is Script {
     function setUp() public {}

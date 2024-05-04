@@ -10,7 +10,7 @@ all: install build
 install:; forge install && npm install
 
 # Build contracts and inject the Poseidon library.
-# build:; forge build && node ./src/test/scripts/generate-circom-lib.js
+gen-lib:; node ./src/js/generate-circom-lib.js
 build:; forge build
 
 # Run tests, with debug information and gas reports.
