@@ -2,7 +2,6 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/bill-101": "pages/bill-101.js",
-  "/bills": "pages/bills.js",
-  "/": "pages/index.js"
+  "/": "pages/index.js",
+  "/bill-101": "pages/bill-101.js"
 }
