@@ -39,6 +39,14 @@
       "static/chunks/node_modules_pnpm_walletconnect_modal-ui_2_6_2__types_react_18_2_6_react_18_2_0_node_modules_-2ebab7.js"
     ]
   },
+  "../../node_modules/.pnpm/viem@1.21.4_bufferutil@4.0.8_typescript@5.0.4_utf-8-validate@6.0.3_zod@3.21.4/node_modules/viem/_esm/actions/public/call.js -> ../../utils/ccip.js": {
+    "id": "../../node_modules/.pnpm/viem@1.21.4_bufferutil@4.0.8_typescript@5.0.4_utf-8-validate@6.0.3_zod@3.21.4/node_modules/viem/_esm/actions/public/call.js -> ../../utils/ccip.js",
+    "files": []
+  },
+  "../../node_modules/.pnpm/viem@1.21.4_bufferutil@4.0.8_typescript@5.0.4_utf-8-validate@6.0.3_zod@3.21.4/node_modules/viem/_esm/utils/signature/recoverPublicKey.js -> @noble/curves/secp256k1": {
+    "id": "../../node_modules/.pnpm/viem@1.21.4_bufferutil@4.0.8_typescript@5.0.4_utf-8-validate@6.0.3_zod@3.21.4/node_modules/viem/_esm/utils/signature/recoverPublicKey.js -> @noble/curves/secp256k1",
+    "files": []
+  },
   "../../node_modules/.pnpm/viem@2.8.16_bufferutil@4.0.8_typescript@5.0.4_utf-8-validate@6.0.3_zod@3.21.4/node_modules/viem/_esm/actions/public/call.js -> ../../utils/ccip.js": {
     "id": "../../node_modules/.pnpm/viem@2.8.16_bufferutil@4.0.8_typescript@5.0.4_utf-8-validate@6.0.3_zod@3.21.4/node_modules/viem/_esm/actions/public/call.js -> ../../utils/ccip.js",
     "files": []
