@@ -1,6 +1,6 @@
-import { keccak256, toUtf8Bytes } from "ethers";
+import { keccak256, toUtf8Bytes, solidityPackedKeccak256 } from "ethers";
 
-const hashScope = (scope) => {
+export const hashScope = (scope) => {
   const hash = keccak256(toUtf8Bytes(scope));
   const field = hash.slice(0, -2);
 
@@ -9,8 +9,8 @@ const hashScope = (scope) => {
   return field;
 };
 
-const hashVote = (vote) => {
-  const hash = keccak256(getBytes(toQuantity(vote)));
+export const hashVote = (vote) => {
+  const hash = solidityPackedKeccak256(["uint8"], [vote]);
   const field = hash.slice(0, -2);
 
   console.log(`Hashed vote "${vote}" to field ${field}`);

@@ -58,6 +58,13 @@ contract ElectoralCommission is Ownable {
         semaphore.addMember(electorates[electorateHash], identityCommitment);
     }
 
+    function addMembers(
+        bytes32 electorateHash,
+        uint256[] calldata identityCommitments
+    ) external onlyOwner {
+        semaphore.addMembers(electorates[electorateHash], identityCommitments);
+    }
+
     function updateMember(
         bytes32 electorateHash,
         uint256 identityCommitment,
