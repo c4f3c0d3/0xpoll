@@ -20,3 +20,5 @@ yarn.lock
 # hardhat
 cache_hardhat
 artifacts
+
+config.ts

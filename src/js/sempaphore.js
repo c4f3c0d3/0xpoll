@@ -1,5 +1,6 @@
 import { Identity } from "@semaphore-protocol/core";
 import { Group } from "@semaphore-protocol/group";
+import { generateProof } from "@semaphore-protocol/proof";
 import { Wallet } from "ethers";
 
 const main = async () => {
