@@ -29,12 +29,12 @@ contract DeployElectoralCommission is Script {
         );
 
         // Electoral Commission sets up the electorates the voters are in
-        electoralCommission.createElectorate(keccak256("Sydney"));
-        electoralCommission.createElectorate(keccak256("North Sydney"));
-        electoralCommission.createElectorate(keccak256("Wentworth"));
-        electoralCommission.createElectorate(keccak256("Kingsford Smith"));
-        electoralCommission.createElectorate(keccak256("Barton"));
-        electoralCommission.createElectorate(keccak256("Cook"));
+        electoralCommission.createElectorate("Sydney");
+        electoralCommission.createElectorate("North Sydney");
+        electoralCommission.createElectorate("Wentworth");
+        electoralCommission.createElectorate("Kingsford Smith");
+        electoralCommission.createElectorate("Barton");
+        electoralCommission.createElectorate("Cook");
 
         vm.stopBroadcast();
     }

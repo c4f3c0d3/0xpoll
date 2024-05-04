@@ -15,6 +15,7 @@ For the hackathon, we used the scenario of the Australian Electoral Commission (
 
 - ElectoralCommission [0x75281fFc939bc0D013964954959793f760342B11](https://amoy.polygonscan.com/0x75281fFc939bc0D013964954959793f760342B11)
 - ISemaphore N/A
+- WorldIDRouter N/A
 
 ### Install
 
