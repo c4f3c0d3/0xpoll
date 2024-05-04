@@ -22,3 +22,6 @@ cache_hardhat
 artifacts
 
 config.ts
+
+# Apple
+.DS_Store
