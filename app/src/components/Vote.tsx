@@ -1,46 +1,68 @@
-import { useAccount, useChainId, useSendTransaction } from 'wagmi';
+import { useEffect } from 'react';
+import { useAccount, useContract, useSigner, useWriteContract } from 'wagmi';
+import { Contract } from 'ethers';
+import { Identity, Group } from '@semaphore-protocol/core';
+import { generateProof, verifyProof } from '@semaphore-protocol/proof';
+import { SemaphoreSubgraph } from "@semaphore-protocol/data";
+// We need to replace this.
+//import { keccak256, toUtf8Bytes } from 'ethers/lib/utils';
+import contractABI from '../abi/ContractAbi.json';
 
-export default function TransactionButton() {
-  const { isConnected } = useAccount();
-  const chainId = useChainId();
-  const { sendTransaction, isLoading, isSuccess, data } = useSendTransaction();
+const electoralCommissionAddress = '0xC0353182AC84ac8CF97e5724fb6964a6FA870CF7';
+// TODO Find alternative functions with wagmi 
+//const sydneyElectorateHash = keccak256(toUtf8Bytes('Sydney'));
+const sydneyElectorateHash = '0x69ed05f70d319c41baeb11c96a47ecd6e07585e86bc770c7486cfd600b0c4c3a';
+const bill = 'digital-id-bill-2024';
+const sydneyElectorateId = '55';
 
-  const handleTransaction = async () => {
+export default function VoteButton() {
+  const { isConnected, address } = useAccount();
+
+  const { writeContract } = useWriteContract();
+
+  const handleVote = async () => {
     if (!isConnected) {
       alert('Please connect your wallet');
       return;
     }
 
-    if (!chainId) {
-      alert('No network connected');
-      return;
-    }
+    const voter = new Identity('voter1');
+    console.log(`Voter Public Key: ${voter.publicKey}`);
 
-    // Ensure we're on a specific chain
-    if (chainId !== 11155111) {
-      alert('Please connect to the Ethereum Sepolia');
-      return;
-    }
 
-    const recipientAddress = '0x04dC8f32FBC7644Bd643c081195dDF8ed7fDccC4'; // Replace with the actual valid address
-
-    // Validate the Ethereum address format
-    if (!/^0x[a-fA-F0-9]{40}$/.test(recipientAddress)) {
-      alert('Invalid Ethereum address');
-      return;
-    }
-
-    sendTransaction({
-      request: {
-        to: recipientAddress,
-        value: '100000000000000000', // 0.1 ETH in Wei
-      },
+    // get members from chain
+    const semaphoreSubgraph = new SemaphoreSubgraph("sepolia");
+    const { members } = await semaphoreSubgraph.getGroup(sydneyElectorateId, {
+      members: true,
     });
+
+    // Uses subgraph
+    const sydneyElectorate = new Group(members);
+    // TODO Replace with hashing versions.
+    const scope = '0xdee2ea8b1704b566fc257124630122e6b788a735c8c85de5e0d00f07492376';
+    const message = '0x5fe7f977e71dba2ea1a68e21057beebb9be2ac30c6410aa38d4f3fbe41dcff'; 
+
+
+    const proof = await generateProof(voter, sydneyElectorate, message, scope);
+    console.log(proof);
+    const result = await writeContract({ 
+          abi: contractABI,
+          address: electoralCommissionAddress,
+          functionName: 'lodge',
+          args: [
+            sydneyElectorateHash,
+            bill,
+            1, // Vote enum
+            proof
+          ],
+       })
+    console.log(result);
+      
   };
 
   return (
-    <button onClick={handleTransaction} disabled={isLoading}>
-      {isSuccess ? `Transaction Hash: ${data?.hash}` : (isLoading ? "Pending, please check your wallet..." : "Send 0.1 ETH")}
+    <button onClick={handleVote} disabled={!isConnected}>
+      Vote on Bill
     </button>
   );
 }
