@@ -1,0 +1,27 @@
+// SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.0;
+
+import {ISemaphore} from "./ISemaphore.sol";
+// import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
+
+contract ElectoralCommission {
+    ISemaphore public semaphore;
+
+    mapping(bytes32 => uint256) public electorates;
+
+    constructor(address _semaphore) {
+        semaphore = ISemaphore(_semaphore);
+    }
+
+    function createElectorate(bytes32 electorateHash) external {
+        require(electorates[electorateHash] == 0, "Electorate already exists");
+        electorates[electorateHash] = semaphore.createGroup(address(this));
+    }
+
+    function addMember(
+        bytes32 electorateHash,
+        uint256 identityCommitment
+    ) external {
+        semaphore.addMember(electorates[electorateHash], identityCommitment);
+    }
+}

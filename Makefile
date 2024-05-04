@@ -19,5 +19,8 @@ test:; forge test -vv --gas-report
 # Update forge dependencies.
 update:; forge update
 
+clear:; rm -rf node_modules; rm -f package-lock.json
+    
 # Deploy contracts
-deploy:; forge script script/Poll.s.sol:DeployPoll --rpc-url ${RPC_URL}  --broadcast --etherscan-api-key ${ETHERSCAN_API_KEY} --verify --slow
+deploy-base:; forge script script/Poll.s.sol:DeployPoll --rpc-url ${BASE_SEPOLIA_RPC_URL}  --broadcast --etherscan-api-key ${ETHERSCAN_API_KEY} --verify --slow
+deploy-sepolia:; forge script script/Poll.s.sol:DeployPoll --rpc-url ${SEPOLIA_RPC_URL}  --broadcast --etherscan-api-key ${ETHERSCAN_API_KEY} --verify --slow

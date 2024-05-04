@@ -60,12 +60,7 @@ contract Poll {
         worldId.verifyProof(
             root,
             groupId,
-            abi
-                .encodePacked(
-                    abi.encodePacked(_electorate).hashToField(),
-                    _vote
-                )
-                .hashToField(),
+            abi.encodePacked(_electorate, _vote).hashToField(),
             nullifierHash,
             externalNullifier,
             proof
